@@ -1,3 +1,4 @@
+
 /* Copyright 2021 iluci
 
 This program is free software: you can redistribute it and/or modify
@@ -14,23 +15,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
-
 #include QMK_KEYBOARD_H
+#include "rgb.h"
 
-// clang-format off
+void array_rgb_matrix_set_color(uint8_t* rgb_array, uint8_t rgb_array_size, uint8_t r, uint8_t g, uint8_t b) {
+    for (unsigned int i = 0; i < rgb_array_size; i++) {
+        rgb_matrix_set_color(rgb_array[i], r, g, b);
+    }
+}
 
-enum custom_keycodes { 
-    FOO = SAFE_RANGE, 
-    RGB_TG, RGB_EF, RGB_CO, 
-    WIN, MAC, DEFAULT, 
-    PSGN
-};
+void suspend_power_down_user() { rgb_matrix_set_suspend_state(true); }
 
-// clang-format on
-
-enum layers { _BASE, _DFT, _FN1 };
-
-typedef enum { TD_UNKNOWN, TD_SINGLE_TAP, TD_SINGLE_HOLD, TD_DOUBLE_TAP, TD_DOUBLE_HOLD, TD_TRIPLE_TAP, TD_TRIPLE_HOLD } td_state_t;
-
-enum td_codes { TD_CAPS, TD_TAB };
+void suspend_wakeup_init_user() { rgb_matrix_set_suspend_state(false); }

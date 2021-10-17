@@ -1,3 +1,4 @@
+
 /* Copyright 2021 iluci
 
 This program is free software: you can redistribute it and/or modify
@@ -15,6 +16,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #pragma once
+
+enum os_modes { WIN_MODE, MAC_MODE };
 
 enum os_actions {
     // More here https://en.wikipedia.org/wiki/Table_of_keyboard_shortcuts

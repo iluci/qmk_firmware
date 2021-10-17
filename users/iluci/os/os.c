@@ -1,3 +1,4 @@
+
 /* Copyright 2021 iluci
 
 This program is free software: you can redistribute it and/or modify
@@ -16,9 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include QMK_KEYBOARD_H
 #include "os.h"
-#include "../keymap.h"
 
-uint8_t os_mode = WIN_MODE;
+uint8_t os_mode        = WIN_MODE;
 
 bool handle_os_action(uint8_t os_action, bool pressed) {
     switch (os_mode) {

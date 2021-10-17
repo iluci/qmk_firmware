@@ -17,17 +17,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 #include "matrix.h"
 #include "../keymap.h"
+#include "rgb/rgb.h"
+#include "os/os.h"
 
 extern uint8_t os_mode;
 
 bool enable_side_rgb_matrix = false;
 bool enable_idicators       = false;
-
-void array_rgb_matrix_set_color(uint8_t* rgb_array, uint8_t rgb_array_size, uint8_t r, uint8_t g, uint8_t b) {
-    for (unsigned int i = 0; i < rgb_array_size; i++) {
-        rgb_matrix_set_color(rgb_array[i], r, g, b);
-    }
-}
 
 void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     RGB triadic_counter_clockwise_rgb = hsv_to_rgb((HSV){rgb_matrix_config.hsv.h - 85, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v});
@@ -67,7 +63,3 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         rgb_matrix_set_color(LED_F1, triadic_clockwise_rgb.r, triadic_clockwise_rgb.g, triadic_clockwise_rgb.b);
     }
 }
-
-void suspend_power_down_user() { rgb_matrix_set_suspend_state(true); }
-
-void suspend_wakeup_init_user() { rgb_matrix_set_suspend_state(false); }

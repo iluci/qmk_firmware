@@ -17,8 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 #include "os.h"
 
-bool is_window_manipulating = false;
-
 bool handle_win_action(uint8_t os_action, bool pressed) {
     switch (os_action) {
         case SGN:
