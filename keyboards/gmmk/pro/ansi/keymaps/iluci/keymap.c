@@ -19,9 +19,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "print.h"
 #include "keymap.h"
 #include "os/os.h"
+#include "rgb/rgb.h"
 
-extern bool    enable_side_rgb_matrix;
-extern bool    enable_idicators;
+bool           enable_side_rgb_matrix = false;
+bool           enable_idicators       = false;
 extern bool    enable_autoshift;
 extern uint8_t os_mode;
 
@@ -455,3 +456,73 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // end macros
 
 void keyboard_post_init_user(void) { debug_enable = true; }
+
+uint8_t rgb_matrix_side[] = { 
+  LED_LS1, LED_RS1,
+  LED_LS2, LED_RS2,
+  LED_LS3, LED_RS3,
+  LED_LS4, LED_RS4,
+  LED_LS5, LED_RS5,
+  LED_LS6, LED_RS6,
+  LED_LS7, LED_RS7,
+  LED_LS8, LED_RS8,
+};
+
+uint8_t rgb_matrix_inactive_fn1[] = { 
+  // OS MODE
+  LED_F1, LED_F2, LED_F3, LED_F4,
+  // Media keys
+  LED_F5,  LED_F6, LED_F7, LED_F8,
+  // RGB CONTROL
+  LED_DEL, LED_HOME, LED_END, LED_INS,
+  // Mouse 
+  LED_Q, LED_W, LED_E,
+  LED_A, LED_S, LED_D,
+
+  // Calc
+  LED_PRT,
+
+  // Keypad
+  LED_Y, LED_U,  LED_I,    LED_O,   LED_P,  
+  LED_H, LED_J,  LED_K,    LED_L,   LED_SCLN, LED_QUOT,
+  LED_N, LED_M,  LED_COMM, LED_DOT, LED_SLSH
+};
+
+void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    RGB triadic_counter_clockwise_rgb = hsv_to_rgb((HSV){rgb_matrix_config.hsv.h - 85, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v});
+    RGB triadic_clockwise_rgb         = hsv_to_rgb((HSV){rgb_matrix_config.hsv.h + 85, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v});
+    RGB complimentary_rgb             = hsv_to_rgb((HSV){rgb_matrix_config.hsv.h + 128, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v});
+
+    layer_state_t highest_layer = get_highest_layer(layer_state | default_layer_state);
+
+    if (!enable_side_rgb_matrix) {
+        array_rgb_matrix_set_color(rgb_matrix_side, sizeof(rgb_matrix_side), RGB_BLACK);
+    }
+
+    if (get_autoshift_state()) {
+        rgb_matrix_set_color(LED_CAPS, triadic_counter_clockwise_rgb.r, triadic_counter_clockwise_rgb.g, triadic_counter_clockwise_rgb.b);
+    }
+
+    if (host_keyboard_led_state().caps_lock) {
+        rgb_matrix_set_color(LED_CAPS, triadic_clockwise_rgb.r, triadic_clockwise_rgb.g, triadic_clockwise_rgb.b);
+    }
+
+    if (IS_LAYER_ON(_FN1)) {
+        array_rgb_matrix_set_color(rgb_matrix_inactive_fn1, sizeof(rgb_matrix_inactive_fn1), triadic_counter_clockwise_rgb.r, triadic_counter_clockwise_rgb.g, triadic_counter_clockwise_rgb.b);
+        rgb_matrix_set_color(LED_BSLS, complimentary_rgb.r, complimentary_rgb.g, complimentary_rgb.b);
+    }
+
+    if (enable_idicators || highest_layer == _FN1) {
+        if (IS_LAYER_OFF(_DFT)) {
+            if (os_mode == WIN_MODE) {
+                rgb_matrix_set_color(LED_F2, triadic_clockwise_rgb.r, triadic_clockwise_rgb.g, triadic_clockwise_rgb.b);
+            } else if (os_mode == MAC_MODE) {
+                rgb_matrix_set_color(LED_F3, triadic_clockwise_rgb.r, triadic_clockwise_rgb.g, triadic_clockwise_rgb.b);
+            }
+        }
+    }
+
+    if (IS_LAYER_ON(_DFT)) {
+        rgb_matrix_set_color(LED_F1, triadic_clockwise_rgb.r, triadic_clockwise_rgb.g, triadic_clockwise_rgb.b);
+    }
+}
