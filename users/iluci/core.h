@@ -15,3 +15,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #pragma once
+
+#include QMK_KEYBOARD_H
+
+// clang-format off
+
+enum user_custom_keycodes { 
+    KC_USER_CUSTOM = SAFE_RANGE, 
+    RGB_TG, RGB_EF, RGB_CO, 
+    OS_DEFT, OS_WIN, OS_MAC, PSGN,
+    NEW_SAFE_RANGE 
+};
+
+// clang-format on

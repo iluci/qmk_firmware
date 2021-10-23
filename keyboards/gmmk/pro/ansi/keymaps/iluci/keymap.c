@@ -188,7 +188,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 // end macros
 
-void keyboard_post_init_user(void) { debug_enable = true; }
+// void keyboard_post_init_user(void) { debug_enable = true; }
 
 uint8_t rgb_matrix_inactive_fn1[] = {
     // OS MODE
