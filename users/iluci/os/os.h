@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 enum os_modes { WIN_MODE, MAC_MODE };
 
+enum os_custom_keycodes { OS_FOO = SAFE_RANGE + 100, WIN, MAC, DEFAULT, PSGN };
+
 enum os_actions {
     // More here https://en.wikipedia.org/wiki/Table_of_keyboard_shortcuts
 
@@ -73,6 +75,8 @@ enum os_actions {
     WINDOW_LOWER_HALF,
     WINDOW_MAXIMIZE
 };
+
+bool os_macros(uint16_t keycode, bool pressed);
 
 bool handle_os_action(uint8_t os_action, bool pressed);
 bool handle_mac_action(uint8_t os_action, bool pressed);

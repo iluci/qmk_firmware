@@ -16,4 +16,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-void array_rgb_matrix_set_color(uint8_t* rgb_array, uint8_t rgb_array_size, uint8_t r, uint8_t g, uint8_t b);

@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "keymap.h"
 #include "os/os.h"
 #include "rgb/rgb.h"
-#include "td/td.h"
+#include "util/util.h"
 
 // clang-format off
 
@@ -94,27 +94,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // clang-format on
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 bool           enable_side_rgb_matrix = false;
 bool           enable_idicators       = false;
 extern uint8_t os_mode;
 
-void       caps_finished(qk_tap_dance_state_t *state, void *user_data);
-void       caps_reset(qk_tap_dance_state_t *state, void *user_data);
+void caps_finished(qk_tap_dance_state_t *state, void *user_data);
+void caps_reset(qk_tap_dance_state_t *state, void *user_data);
 
 qk_tap_dance_action_t tap_dance_actions[] = {[TD_CAPS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, caps_finished, caps_reset)};
 
@@ -204,20 +189,14 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 // macros
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    uint8_t initial_mod_state = get_mods();
-    bool    pressed           = record->event.pressed;
-
-    bool is_any_ctrl  = initial_mod_state & MOD_MASK_CTRL;
-    bool is_any_gui   = initial_mod_state & MOD_MASK_GUI;
-    bool is_any_alt   = initial_mod_state & MOD_MASK_ALT;
-    bool is_any_shift = initial_mod_state & MOD_MASK_SHIFT;
+    bool pressed = record->event.pressed;
 
     switch (keycode) {
         case RGB_TG:
             if (pressed) {
-                if (is_any_ctrl) {
+                if (is_any_ctrl()) {
                     enable_side_rgb_matrix = !enable_side_rgb_matrix;
-                } else if (is_any_alt) {
+                } else if (is_any_alt()) {
                     enable_idicators = !enable_idicators;
                 } else {
                     rgb_matrix_toggle();
@@ -226,14 +205,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case RGB_EF:
             if (pressed) {
-                if (is_any_ctrl) {
-                    if (is_any_shift) {
+                if (is_any_ctrl()) {
+                    if (is_any_shift()) {
                         rgb_matrix_decrease_speed();
                     } else {
                         rgb_matrix_increase_speed();
                     }
                 } else {
-                    if (is_any_shift) {
+                    if (is_any_shift()) {
                         rgb_matrix_step_reverse();
                     } else {
                         rgb_matrix_step();
@@ -243,14 +222,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case RGB_CO:
             if (pressed) {
-                if (is_any_ctrl) {
-                    if (is_any_shift) {
+                if (is_any_ctrl()) {
+                    if (is_any_shift()) {
                         rgb_matrix_decrease_sat();
                     } else {
                         rgb_matrix_increase_sat();
                     }
                 } else {
-                    if (is_any_shift) {
+                    if (is_any_shift()) {
                         rgb_matrix_decrease_hue();
                     } else {
                         rgb_matrix_increase_hue();
@@ -271,205 +250,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     if (IS_LAYER_OFF(_DFT)) {
-        bool handled = false;
-
-        switch (keycode) {
-            case KC_RALT:
-            case KC_LALT:
-                handled = handle_os_action(SWITCH_WINDOW_EXIT, pressed);
-                break;
-            case KC_TAB:
-                if (is_any_alt) {
-                    del_mods(MOD_MASK_ALT);
-                    handled = handle_os_action(SWITCH_WINDOW, pressed);
-                    if (!handled) {
-                        set_mods(initial_mod_state);
-                    }
-                }
-                break;
-            case KC_ESC:
-                if (is_any_alt) {
-                    handled = handle_os_mod_mask_action(SWITCH_WINDOW_NO_DIALOG, pressed, MOD_MASK_ALT);
-                } else if (is_any_ctrl && is_any_shift) {
-                    handled = handle_os_mod_mask_action(OS_TASK_MANAGER, pressed, MOD_MASK_CS);
-                }
-                break;
-
-            case KC_CALC:
-                handled = handle_os_mod_mask_action(CALC, pressed, 0);
-                break;
-            case PSGN:
-                handled = handle_os_mod_mask_action(SGN, pressed, 0);
-                break;
-            case KC_PSCR:
-                handled = handle_os_mod_mask_action(OS_SCREENSHOT_SNIP, pressed, 0);
-                break;
-
-            case KC_LEFT:
-                if (is_any_ctrl && is_any_gui) {
-                    handled = handle_os_mod_mask_action(WINDOW_LEFT_HALF, pressed, MOD_MASK_CTRL);
-                } else if (is_any_ctrl && !is_any_alt) {
-                    handled = handle_os_mod_mask_action(TXT_PREV_WORD, pressed, MOD_MASK_CTRL);
-                }
-                break;
-            case KC_RGHT:
-                if (is_any_ctrl && is_any_gui) {
-                    handled = handle_os_mod_mask_action(WINDOW_RIGHT_HALF, pressed, MOD_MASK_CTRL);
-                } else if (is_any_ctrl && !is_any_alt) {
-                    handled = handle_os_mod_mask_action(TXT_NEXT_WORD, pressed, MOD_MASK_CTRL);
-                }
-                break;
-            case KC_UP:
-                if (is_any_ctrl && is_any_gui) {
-                    handled = handle_os_mod_mask_action(WINDOW_TOP_HALF, pressed, MOD_MASK_CTRL);
-                }
-                break;
-            case KC_DOWN:
-                if (is_any_ctrl && is_any_gui) {
-                    handled = handle_os_mod_mask_action(WINDOW_LOWER_HALF, pressed, MOD_MASK_CTRL);
-                }
-                break;
-            case KC_HOME:
-                if (is_any_ctrl) {
-                    handled = handle_os_mod_mask_action(TXT_START_DOC, pressed, MOD_MASK_CTRL);
-                } else {
-                    handled = handle_os_mod_mask_action(TXT_START_LINE, pressed, 0);
-                }
-                break;
-            case KC_END:
-                if (is_any_ctrl) {
-                    handled = handle_os_mod_mask_action(TXT_END_DOC, pressed, MOD_MASK_CTRL);
-                } else {
-                    handled = handle_os_mod_mask_action(TXT_END_LINE, pressed, 0);
-                }
-                break;
-
-            case KC_DEL:
-                if (is_any_ctrl) {
-                    handled = handle_os_mod_mask_action(TXT_DEL_NEXT_WORD, pressed, MOD_MASK_CTRL);
-                }
-                break;
-            case KC_BSPC:
-                if (is_any_ctrl) {
-                    handled = handle_os_mod_mask_action(TXT_DEL_PREV_WORD, pressed, MOD_MASK_CTRL);
-                }
-                break;
-
-            case KC_B:
-                if (is_any_ctrl) {
-                    handled = handle_os_mod_mask_action(TXT_BOLD, pressed, MOD_MASK_CTRL);
-                }
-                break;
-            case KC_U:
-                if (is_any_ctrl) {
-                    handled = handle_os_mod_mask_action(TXT_UNDERLINE, pressed, MOD_MASK_CTRL);
-                }
-                break;
-            case KC_I:
-                if (is_any_ctrl) {
-                    handled = handle_os_mod_mask_action(TXT_ITALIC, pressed, MOD_MASK_CTRL);
-                }
-                break;
-            case KC_F:
-                if (is_any_ctrl) {
-                    handled = handle_os_mod_mask_action(TXT_FIND, pressed, MOD_MASK_CTRL);
-                }
-                break;
-
-            case KC_Z:
-                if (is_any_ctrl) {
-                    if (is_any_alt) {
-                        handled = handle_os_mod_mask_action(OS_REDO, pressed, MOD_MASK_CA);
-                    } else {
-                        handled = handle_os_mod_mask_action(OS_UNDO, pressed, MOD_MASK_CTRL);
-                    }
-                }
-                break;
-            case KC_X:
-                if (is_any_ctrl) {
-                    handled = handle_os_mod_mask_action(OS_CUT, pressed, MOD_MASK_CTRL);
-                }
-                break;
-            case KC_C:
-                if (is_any_ctrl) {
-                    handled = handle_os_mod_mask_action(OS_COPY, pressed, MOD_MASK_CTRL);
-                }
-                break;
-            case KC_V:
-                if (is_any_ctrl) {
-                    handled = handle_os_mod_mask_action(OS_PASTE, pressed, MOD_MASK_CTRL);
-                } else if (is_any_gui) {
-                    handled = handle_os_mod_mask_action(OS_PASTE_SPECIAL, pressed, MOD_MASK_GUI);
-                }
-                break;
-
-            case KC_A:
-                if (is_any_ctrl) {
-                    handled = handle_os_mod_mask_action(OS_SELECT_ALL, pressed, MOD_MASK_CTRL);
-                }
-                break;
-            case KC_S:
-                if (is_any_gui) {
-                    handled = handle_os_mod_mask_action(OS_SEARCH, pressed, MOD_MASK_GUI);
-                }
-                break;
-            case KC_F4:
-                if (is_any_alt) {
-                    handled = handle_os_mod_mask_action(OS_FORCE_QUIT_APP, pressed, MOD_MASK_ALT);
-                }
-                break;
-            case KC_L:
-                if (is_any_gui) {
-                    handled = handle_os_mod_mask_action(OS_LOCK_SCREEN, pressed, MOD_MASK_GUI);
-                }
-                break;
-
-            case KC_D:
-                if (is_any_ctrl) {
-                    handled = handle_os_mod_mask_action(BROW_BOOKMARK, pressed, MOD_MASK_CTRL);
-                }
-                break;
-            case KC_R:
-                if (is_any_ctrl) {
-                    if (is_any_shift) {
-                        handled = handle_os_mod_mask_action(BROW_REFRESH_CACHE, pressed, MOD_MASK_CS);
-                    } else {
-                        handled = handle_os_mod_mask_action(BROW_REFRESH, pressed, MOD_MASK_CTRL);
-                    }
-                }
-                break;
-            case KC_N:
-                if (is_any_ctrl) {
-                    if (is_any_shift) {
-                        handled = handle_os_mod_mask_action(BROW_INCOGNITO, pressed, MOD_MASK_CS);
-                    } else {
-                        handled = handle_os_mod_mask_action(BROW_NEW_WINDOW, pressed, MOD_MASK_CTRL);
-                    }
-                }
-                break;
-            case KC_T:
-                if (is_any_ctrl) {
-                    if (is_any_shift) {
-                        handled = handle_os_mod_mask_action(BROW_OPEN_LAST_CLOSED, pressed, MOD_MASK_CS);
-                    } else {
-                        handled = handle_os_mod_mask_action(BROW_NEW_TAB, pressed, MOD_MASK_CTRL);
-                    }
-                }
-                break;
-            case KC_W:
-                if (is_any_ctrl) {
-                    handled = handle_os_mod_mask_action(BROW_CLOSE_TAB, pressed, MOD_MASK_CTRL);
-                }
-                break;
-
-            case KC_ENT:
-                if (is_any_ctrl && is_any_gui) {
-                    handled = handle_os_mod_mask_action(WINDOW_MAXIMIZE, pressed, MOD_MASK_CG);
-                    del_mods(MOD_MASK_GUI);
-                }
-                break;
-        }
-
+        bool handled = os_macros(keycode, pressed);
         if (handled) {
             return false;
         }
@@ -482,61 +263,57 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void keyboard_post_init_user(void) { debug_enable = true; }
 
-uint8_t rgb_matrix_inactive_fn1[] = { 
-  // OS MODE
-  LED_F1, LED_F2, LED_F3, LED_F4,
-  // Media keys
-  LED_F5,  LED_F6, LED_F7, LED_F8,
-  // RGB CONTROL
-  LED_DEL, LED_HOME, LED_END, LED_INS,
-  // Mouse 
-  LED_Q, LED_W, LED_E,
-  LED_A, LED_S, LED_D,
+uint8_t rgb_matrix_inactive_fn1[] = {
+    // OS MODE
+    LED_F1, LED_F2, LED_F3, LED_F4,
+    // Media keys
+    LED_F5, LED_F6, LED_F7, LED_F8,
+    // RGB CONTROL
+    LED_DEL, LED_HOME, LED_END, LED_INS,
+    // Mouse
+    // Mouse
+    // Mouse
+    // Mouse
+    // Mouse
+    // Mouse
+    // Mouse
+    LED_Q, LED_W, LED_E, LED_A, LED_S, LED_D,
 
-  // Calc
-  LED_PRT,
+    // Calc
+    LED_PRT,
 
-  // Keypad
-  LED_Y, LED_U,  LED_I,    LED_O,   LED_P,  
-  LED_H, LED_J,  LED_K,    LED_L,   LED_SCLN, LED_QUOT,
-  LED_N, LED_M,  LED_COMM, LED_DOT, LED_SLSH
-};
+    // Keypad
+    LED_Y, LED_U, LED_I, LED_O, LED_P, LED_H, LED_J, LED_K, LED_L, LED_SCLN, LED_QUOT, LED_N, LED_M, LED_COMM, LED_DOT, LED_SLSH};
 
 void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    RGB triadic_counter_clockwise_rgb = hsv_to_rgb((HSV){rgb_matrix_config.hsv.h - 85, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v});
-    RGB triadic_clockwise_rgb         = hsv_to_rgb((HSV){rgb_matrix_config.hsv.h + 85, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v});
-    RGB complimentary_rgb             = hsv_to_rgb((HSV){rgb_matrix_config.hsv.h + 128, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v});
-
-    layer_state_t highest_layer = get_highest_layer(layer_state | default_layer_state);
-
     if (!enable_side_rgb_matrix) {
-        array_rgb_matrix_set_color(rgb_matrix_side, sizeof(rgb_matrix_side), RGB_BLACK);
+        rgb_matrix_disable_leds(rgb_matrix_side, sizeof(rgb_matrix_side));
     }
 
     if (get_autoshift_state()) {
-        rgb_matrix_set_color(LED_CAPS, triadic_counter_clockwise_rgb.r, triadic_counter_clockwise_rgb.g, triadic_counter_clockwise_rgb.b);
+        rgb_matrix_set_color_led(LED_CAPS, triadic_counter_clockwise_rgb());
     }
 
     if (host_keyboard_led_state().caps_lock) {
-        rgb_matrix_set_color(LED_CAPS, triadic_clockwise_rgb.r, triadic_clockwise_rgb.g, triadic_clockwise_rgb.b);
+        rgb_matrix_set_color_led(LED_CAPS, triadic_clockwise_rgb());
     }
 
     if (IS_LAYER_ON(_FN1)) {
-        array_rgb_matrix_set_color(rgb_matrix_inactive_fn1, sizeof(rgb_matrix_inactive_fn1), triadic_counter_clockwise_rgb.r, triadic_counter_clockwise_rgb.g, triadic_counter_clockwise_rgb.b);
-        rgb_matrix_set_color(LED_BSLS, complimentary_rgb.r, complimentary_rgb.g, complimentary_rgb.b);
+        rgb_matrix_set_color_leds(rgb_matrix_inactive_fn1, sizeof(rgb_matrix_inactive_fn1), triadic_counter_clockwise_rgb());
+        rgb_matrix_set_color_led(LED_BSLS, complimentary_rgb());
     }
 
-    if (enable_idicators || highest_layer == _FN1) {
+    if (enable_idicators || get_highest_layer(layer_state | default_layer_state) == _FN1) {
         if (IS_LAYER_OFF(_DFT)) {
             if (os_mode == WIN_MODE) {
-                rgb_matrix_set_color(LED_F2, triadic_clockwise_rgb.r, triadic_clockwise_rgb.g, triadic_clockwise_rgb.b);
+                rgb_matrix_set_color_led(LED_F2, triadic_clockwise_rgb());
             } else if (os_mode == MAC_MODE) {
-                rgb_matrix_set_color(LED_F3, triadic_clockwise_rgb.r, triadic_clockwise_rgb.g, triadic_clockwise_rgb.b);
+                rgb_matrix_set_color_led(LED_F3, triadic_clockwise_rgb());
             }
         }
     }
 
     if (IS_LAYER_ON(_DFT)) {
-        rgb_matrix_set_color(LED_F1, triadic_clockwise_rgb.r, triadic_clockwise_rgb.g, triadic_clockwise_rgb.b);
+        rgb_matrix_set_color_led(LED_F1, triadic_clockwise_rgb());
     }
 }

@@ -18,12 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include QMK_KEYBOARD_H
 
-enum custom_keycodes { 
-    FOO = SAFE_RANGE, 
-    RGB_TG, RGB_EF, RGB_CO, 
-    WIN, MAC, DEFAULT, 
-    PSGN
-};
+enum custom_keycodes { FOO = SAFE_RANGE, RGB_TG, RGB_EF, RGB_CO };
 
 enum layers { _BASE, _DFT, _FN1 };
 

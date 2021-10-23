@@ -30,3 +30,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGB_MATRIX_STARTUP_MODE RGB_MATRIX_SOLID_COLOR
 
 #define ENCODER_RESOLUTION 2
+
+#define POWER_DOWN_DISABLE_RGB true
