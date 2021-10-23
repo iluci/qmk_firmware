@@ -73,17 +73,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_LCTL,     KC_LGUI,  KC_LALT,                            KC_SPC,                             KC_RALT,  TT(_FN1), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
   ),
 
-  [_DFT] = LAYOUT(
-      _______,     _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______, _______,          _______,
-      _______,     _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______, _______,          _______,
-      _______,     _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______, _______,          _______,
-      _______,     _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,           _______,          _______,
-      _______,     _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,            _______,          _______, _______,
-      _______,     _______,  _______,                            _______,                            _______,  _______,  _______, _______, _______, _______
-  ),
-
   [_FN1] = LAYOUT(
-      _______,     TG(_DFT), WIN,     MAC,     _______, KC_MPRV, KC_MNXT, KC_MPLY, KC_MSTP, _______, _______,  _______,  _______, KC_CALC,          KC_MUTE,
+      _______,     OS_DEFT,  OS_WIN,  OS_MAC,  _______, KC_MPRV, KC_MNXT, KC_MPLY, KC_MSTP, _______, _______,  _______,  _______, KC_CALC,          KC_MUTE,
       _______,     _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______, _______,          RGB_TG,
       _______,     KC_BTN1,  KC_MS_U, KC_BTN1, _______, _______, PSGN,    KC_P7,   KC_P8,   KC_P9,   KC_PAST,  _______,  _______, RESET,            RGB_EF,
       _______,     KC_MS_L,  KC_MS_D, KC_MS_R, _______, _______, KC_P0,   KC_P4,   KC_P5,   KC_P6,   KC_PMNS,  KC_PSLS,           _______,          RGB_CO,
@@ -112,7 +103,7 @@ void caps_finished(qk_tap_dance_state_t *state, void *user_data) {
             register_code16(KC_CAPS);
             break;
         case TD_DOUBLE_TAP:
-            set_oneshot_layer(_DFT, ONESHOT_START);
+            set_one_shot_df_os_mode();
             break;
         case TD_TRIPLE_TAP:
             autoshift_toggle();
@@ -237,23 +228,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             return false;
-        case WIN:
-            layer_off(_DFT);
-            pressed && (os_mode = WIN_MODE);
-            return false;
-            break;
-        case MAC:
-            layer_off(_DFT);
-            pressed && (os_mode = MAC_MODE);
-            return false;
-            break;
     }
 
-    if (IS_LAYER_OFF(_DFT)) {
-        bool handled = os_macros(keycode, pressed);
-        if (handled) {
-            return false;
-        }
+    bool handled = os_macros(keycode, pressed);
+    if (handled) {
+        return false;
     }
 
     return true;
@@ -271,19 +250,13 @@ uint8_t rgb_matrix_inactive_fn1[] = {
     // RGB CONTROL
     LED_DEL, LED_HOME, LED_END, LED_INS,
     // Mouse
-    // Mouse
-    // Mouse
-    // Mouse
-    // Mouse
-    // Mouse
-    // Mouse
     LED_Q, LED_W, LED_E, LED_A, LED_S, LED_D,
-
     // Calc
     LED_PRT,
-
     // Keypad
-    LED_Y, LED_U, LED_I, LED_O, LED_P, LED_H, LED_J, LED_K, LED_L, LED_SCLN, LED_QUOT, LED_N, LED_M, LED_COMM, LED_DOT, LED_SLSH};
+    LED_Y, LED_U, LED_I, LED_O, LED_P, LED_H, LED_J, LED_K, LED_L, LED_SCLN, LED_QUOT, LED_N, LED_M, LED_COMM, LED_DOT, LED_SLSH
+
+};
 
 void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     if (!enable_side_rgb_matrix) {
@@ -303,17 +276,15 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         rgb_matrix_set_color_led(LED_BSLS, complimentary_rgb());
     }
 
-    if (enable_idicators || get_highest_layer(layer_state | default_layer_state) == _FN1) {
-        if (IS_LAYER_OFF(_DFT)) {
-            if (os_mode == WIN_MODE) {
-                rgb_matrix_set_color_led(LED_F2, triadic_clockwise_rgb());
-            } else if (os_mode == MAC_MODE) {
-                rgb_matrix_set_color_led(LED_F3, triadic_clockwise_rgb());
-            }
+    if (enable_idicators || IS_LAYER_ON(_FN1)) {
+        if (os_mode == OS_MODE_WIN) {
+            rgb_matrix_set_color_led(LED_F2, triadic_clockwise_rgb());
+        } else if (os_mode == OS_MODE_MAC) {
+            rgb_matrix_set_color_led(LED_F3, triadic_clockwise_rgb());
         }
     }
 
-    if (IS_LAYER_ON(_DFT)) {
+    if (os_mode == OS_MODE_DFT) {
         rgb_matrix_set_color_led(LED_F1, triadic_clockwise_rgb());
     }
 }

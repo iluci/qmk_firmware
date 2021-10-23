@@ -20,6 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 enum custom_keycodes { FOO = SAFE_RANGE, RGB_TG, RGB_EF, RGB_CO };
 
-enum layers { _BASE, _DFT, _FN1 };
+enum layers { _BASE, _FN1 };
 
 enum td_codes { TD_CAPS };

@@ -16,9 +16,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-enum os_modes { WIN_MODE, MAC_MODE };
+enum os_modes { OS_MODE_DFT, OS_MODE_WIN, OS_MODE_MAC };
 
-enum os_custom_keycodes { OS_FOO = SAFE_RANGE + 100, WIN, MAC, DEFAULT, PSGN };
+enum os_custom_keycodes { OS_FOO = SAFE_RANGE + 100, OS_DEFT, OS_WIN, OS_MAC, PSGN };
 
 enum os_actions {
     // More here https://en.wikipedia.org/wiki/Table_of_keyboard_shortcuts
@@ -75,6 +75,8 @@ enum os_actions {
     WINDOW_LOWER_HALF,
     WINDOW_MAXIMIZE
 };
+
+void set_one_shot_df_os_mode(void);
 
 bool os_macros(uint16_t keycode, bool pressed);
 
