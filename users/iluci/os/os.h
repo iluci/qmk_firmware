@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 enum os_modes { OS_MODE_DFT, OS_MODE_WIN, OS_MODE_MAC };
 
-enum os_custom_keycodes { OS_FOO = SAFE_RANGE + 100, OS_DEFT, OS_WIN, OS_MAC, PSGN };
+enum os_custom_keycodes { OS_FOO = SAFE_RANGE + 200, OS_DEFT, OS_WIN, OS_MAC, PSGN };
 
 enum os_actions {
     // More here https://en.wikipedia.org/wiki/Table_of_keyboard_shortcuts

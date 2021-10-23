@@ -14,8 +14,23 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
+#include QMK_KEYBOARD_H
+#include "os/os.h"
+#include "rgb/rgb.h"
 
-enum rgb_custom_keycodes { RGB_FOO = SAFE_RANGE + 100, RGB_TG, RGB_EF, RGB_CO };
+bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
+    bool handled = false;
+    bool pressed = record->event.pressed;
 
-bool rgb_macros(uint16_t keycode, bool pressed);
+    handled = rgb_macros(keycode, pressed);
+    if (handled) {
+        return false;
+    }
+
+    handled = os_macros(keycode, pressed);
+    if (handled) {
+        return false;
+    }
+
+    return true;
+}

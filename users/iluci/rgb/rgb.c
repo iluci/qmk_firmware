@@ -16,6 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include QMK_KEYBOARD_H
 #include "rgb.h"
+#include "../util/util.h"
 
 #ifdef POWER_DOWN_DISABLE_RGB
 void suspend_power_down_user() { rgb_matrix_set_suspend_state(true); }

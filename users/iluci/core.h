@@ -15,7 +15,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #pragma once
-
-enum rgb_custom_keycodes { RGB_FOO = SAFE_RANGE + 100, RGB_TG, RGB_EF, RGB_CO };
-
-bool rgb_macros(uint16_t keycode, bool pressed);

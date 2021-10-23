@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "os/os.h"
 #include "rgb/rgb.h"
 #include "util/util.h"
+#include "core.h"
 
 // clang-format off
 
@@ -85,8 +86,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // clang-format on
 
-bool           enable_side_rgb_matrix = false;
-bool           enable_idicators       = false;
+extern bool    enable_side_rgb_matrix;
+extern bool    enable_idicators;
 extern uint8_t os_mode;
 
 void caps_finished(qk_tap_dance_state_t *state, void *user_data);
@@ -180,60 +181,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 // macros
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    bool pressed = record->event.pressed;
-
-    switch (keycode) {
-        case RGB_TG:
-            if (pressed) {
-                if (is_any_ctrl()) {
-                    enable_side_rgb_matrix = !enable_side_rgb_matrix;
-                } else if (is_any_alt()) {
-                    enable_idicators = !enable_idicators;
-                } else {
-                    rgb_matrix_toggle();
-                }
-            }
-            return false;
-        case RGB_EF:
-            if (pressed) {
-                if (is_any_ctrl()) {
-                    if (is_any_shift()) {
-                        rgb_matrix_decrease_speed();
-                    } else {
-                        rgb_matrix_increase_speed();
-                    }
-                } else {
-                    if (is_any_shift()) {
-                        rgb_matrix_step_reverse();
-                    } else {
-                        rgb_matrix_step();
-                    }
-                }
-            }
-            return false;
-        case RGB_CO:
-            if (pressed) {
-                if (is_any_ctrl()) {
-                    if (is_any_shift()) {
-                        rgb_matrix_decrease_sat();
-                    } else {
-                        rgb_matrix_increase_sat();
-                    }
-                } else {
-                    if (is_any_shift()) {
-                        rgb_matrix_decrease_hue();
-                    } else {
-                        rgb_matrix_increase_hue();
-                    }
-                }
-            }
-            return false;
-    }
-
-    bool handled = os_macros(keycode, pressed);
-    if (handled) {
-        return false;
-    }
+    // bool pressed = record->event.pressed;
 
     return true;
 }
