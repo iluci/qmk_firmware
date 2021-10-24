@@ -78,6 +78,8 @@ void set_one_shot_df_os_mode(void);
 
 bool os_macros(uint16_t keycode, bool pressed);
 
+void os_leds(void);
+
 bool handle_os_action(uint8_t os_action, bool pressed);
 bool handle_mac_action(uint8_t os_action, bool pressed);
 bool handle_win_action(uint8_t os_action, bool pressed);

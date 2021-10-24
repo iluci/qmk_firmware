@@ -18,6 +18,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include QMK_KEYBOARD_H
 
+typedef struct led_indicators_config_t {
+    bool initialized;
+
+    uint8_t RGB_MATRIX_SIDE[50];
+    uint8_t RGB_MATRIX_INCATIVE_FN1[50];
+    uint8_t RESET;
+    uint8_t CAPS_LOCK;
+    uint8_t OS_IDICATOR_LAYER;
+    uint8_t OS_MODE_DFT;
+    uint8_t OS_MODE_WIN;
+    uint8_t OS_MODE_MAC;
+
+} led_indicators_config_t;
+
 // clang-format off
 
 enum user_custom_keycodes { 

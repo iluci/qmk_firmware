@@ -17,6 +17,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 #include QMK_KEYBOARD_H
 
+void encoder_execute(uint16_t counterClockwiseAction, uint16_t clockwiseAction, bool clockwise);
+
+// TODO check if you can use this
+// #define MODS_SHIFT ((get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT)
+// #define MODS_CTRL  ((get_mods() | get_oneshot_mods()) & MOD_MASK_CTRL)
+// #define MODS_ALT   ((get_mods() | get_oneshot_mods()) & MOD_MASK_ALT)
+// #define MODS_GUI   ((get_mods() | get_oneshot_mods()) & MOD_MASK_GUI)
+
 bool is_any_ctrl(void);
 bool is_any_gui(void);
 bool is_any_alt(void);

@@ -19,42 +19,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "print.h"
 #include "keymap.h"
 #include "os/os.h"
-#include "rgb/rgb.h"
 #include "util/util.h"
 #include "core.h"
 
 // clang-format off
-
-// 67, Side 01  0, ESC        6, F1          12, F2         18, F3       23, F4       28, F5        34, F6       39, F7       44, F8         50, F9        56, F10        61, F11        66, F12        69, Prt        Rotary(Mute)    68, Side 12
-// 70, Side 02  1, ~          7, 1           13, 2          19, 3        24, 4        29, 5         35, 6        40, 7        45, 8          51, 9         57, 0          62, -_         78, (=+)       85, BackSpc    72, Del         71, Side 13
-// 73, Side 03  2, Tab        8, Q           14, W          20. E        25, R        30, T         36, Y        41, U        46, I          52, O         58, P          63, [{         89, ]}         93, \|         75, Home        74, Side 14
-// 76, Side 04  3, Caps       9, A           15, S          21, D        26, F        31, G         37, H        42, J        47, K          53, L         59, ;:         64, '"                        96, Enter      86, End         77, Side 15
-// 80, Side 05  4, Sh_L       10, Z          16, X          22, C        27, V        32, B         38, N        43, M        48, ,<         54, .<        60, /?                        90, Sh_R       94, Up         82, Insert      81, Side 16
-// 83, Side 06  5, Ct_L       11,Win_L       17, Alt_L                                33, SPACE                               49, Alt_R      55, FN                       65, Ct_R       95, Left       97, Down       79, Right       84, Side 17
-// 87, Side 07                                                                                                                                                                                                                         88, Side 18
-// 91, Side 08                                                                                                                                                                                                                         92, Side 19
-
-enum rgb_matrix {
-  LED_LS1 = 67, LED_ESC = 0,  LED_F1 = 6,    LED_F2 = 12,   LED_F3 = 18, LED_F4 = 23, LED_F5 = 28,  LED_F6 = 34, LED_F7 = 39, LED_F8 = 44,   LED_F9 = 50,  LED_F10 = 56,  LED_F11 = 61,  LED_F12 = 66,  LED_PRT = 69,                 /* Rotary */    LED_RS1 = 68,
-  LED_LS2 = 70, LED_GRV = 1,  LED_1 = 7,     LED_2 = 13,    LED_3 = 19,  LED_4 = 24,  LED_5 = 29,   LED_6 = 35,  LED_7 = 40,  LED_8 = 45,    LED_9 = 51,   LED_0 = 57,    LED_MINS = 62, LED_EQL = 78,  LED_BSPC = 85,                LED_DEL = 72,   LED_RS2 = 71,
-  LED_LS3 = 73, LEB_TAB = 2,  LED_Q = 8,     LED_W = 14,    LED_E = 20,  LED_R = 25,  LED_T = 30,   LED_Y = 36,  LED_U = 41,  LED_I = 46,    LED_O = 52,   LED_P = 58,    LED_LBRC = 63, LED_RBRC = 89, LED_BSLS = 93,                LED_HOME = 75,  LED_RS3 = 74,
-  LED_LS4 = 76, LED_CAPS = 3, LED_A = 9,     LED_S = 15,    LED_D = 21,  LED_F = 26,  LED_G = 31,   LED_H = 37,  LED_J = 42,  LED_K = 47,    LED_L = 53,   LED_SCLN = 59, LED_QUOT = 64,                LED_ENT = 96,                 LED_END = 86,   LED_RS4 = 77,
-  LED_LS5 = 80, LED_LSFT = 4, LED_Z = 10,    LED_X = 16,    LED_C = 22,  LED_V = 27,  LED_B = 32,   LED_N = 38,  LED_M = 43,  LED_COMM = 48, LED_DOT = 54, LED_SLSH = 60,                LED_RSFT = 90,                LED_UP = 94,   LED_INS = 82,   LED_RS5 = 81,
-  LED_LS6 = 83, LED_LCTL = 5, LED_LWIN = 11, LED_LALT = 17,                                         LED_SPC = 33,                                          LED_RALT = 49, LED_FN = 55,   LED_RCTL = 65, LED_LEFT = 95, LED_DOWN = 97, LED_RIGHT = 79, LED_RS6 = 84,
-  LED_LS7 = 87,                                                                                                                                                                                                                                       LED_RS7 = 88,
-  LED_LS8 = 91,                                                                                                                                                                                                                                       LED_RS8 = 92,
-};
-
-uint8_t rgb_matrix_side[] = { 
-  LED_LS1, LED_RS1,
-  LED_LS2, LED_RS2,
-  LED_LS3, LED_RS3,
-  LED_LS4, LED_RS4,
-  LED_LS5, LED_RS5,
-  LED_LS6, LED_RS6,
-  LED_LS7, LED_RS7,
-  LED_LS8, LED_RS8,
-};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -86,16 +54,58 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // clang-format on
 
-extern bool    enable_side_rgb_matrix;
-extern bool    enable_idicators;
-extern uint8_t os_mode;
+led_indicators_config_t led_indicators_config(void) {
+    return (led_indicators_config_t){
+        .initialized = true,
 
-void caps_finished(qk_tap_dance_state_t *state, void *user_data);
-void caps_reset(qk_tap_dance_state_t *state, void *user_data);
+        .RGB_MATRIX_SIDE =
+            {
+                LED_LS1,
+                LED_RS1,
+                LED_LS2,
+                LED_RS2,
+                LED_LS3,
+                LED_RS3,
+                LED_LS4,
+                LED_RS4,
+                LED_LS5,
+                LED_RS5,
+                LED_LS6,
+                LED_RS6,
+                LED_LS7,
+                LED_RS7,
+                LED_LS8,
+                LED_RS8,
+            },
+        .RGB_MATRIX_INCATIVE_FN1 =
+            {// OS MODE
+             LED_F1, LED_F2, LED_F3, LED_F4,
+             // Media keys
+             LED_F5, LED_F6, LED_F7, LED_F8,
+             // RGB CONTROL
+             LED_DEL, LED_HOME, LED_END, LED_INS,
+             // Mouse
+             LED_Q, LED_W, LED_E, LED_A, LED_S, LED_D,
+             // Calc
+             LED_PRT,
+             // Keypad
+             LED_Y, LED_U, LED_I, LED_O, LED_P, LED_H, LED_J, LED_K, LED_L, LED_SCLN, LED_QUOT, LED_N, LED_M, LED_COMM, LED_DOT, LED_SLSH},
+        .RESET             = LED_BSLS,
+        .OS_IDICATOR_LAYER = _FN1,
+        .CAPS_LOCK         = LED_CAPS,
+        .OS_MODE_DFT       = LED_F1,
+        .OS_MODE_WIN       = LED_F2,
+        .OS_MODE_MAC       = LED_F3,
+    };
+}
 
-qk_tap_dance_action_t tap_dance_actions[] = {[TD_CAPS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, caps_finished, caps_reset)};
+// void keyboard_post_init_user(void) { debug_enable = true; }
 
 // tap dance
+
+void                  caps_finished(qk_tap_dance_state_t *state, void *user_data);
+void                  caps_reset(qk_tap_dance_state_t *state, void *user_data);
+qk_tap_dance_action_t tap_dance_actions[] = {[TD_CAPS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, caps_finished, caps_reset)};
 
 void caps_finished(qk_tap_dance_state_t *state, void *user_data) {
     switch (cur_dance(state)) {
@@ -129,110 +139,3 @@ void caps_reset(qk_tap_dance_state_t *state, void *user_data) {
 }
 
 // end tap dance
-
-// encoder
-
-void encoder_execute(uint16_t counterClockwiseAction, uint16_t clockwiseAction, bool clockwise) {
-    if (clockwise) {
-        tap_code16(clockwiseAction);
-    } else {
-        tap_code16(counterClockwiseAction);
-    }
-}
-
-bool encoder_update_user(uint8_t index, bool clockwise) {
-    if (index == 0) {
-        if (IS_LAYER_ON(_FN1)) {
-            encoder_execute(KC_VOLU, KC_VOLD, clockwise);
-        } else {
-            uint8_t initial_mod_state = get_mods();
-            bool    is_any_ctrl       = initial_mod_state & MOD_MASK_CTRL;
-            bool    is_any_alt        = initial_mod_state & MOD_MASK_ALT;
-
-            if (is_any_ctrl && is_any_alt) {
-                unregister_code16(KC_LALT);
-                unregister_code16(KC_RALT);
-                unregister_code16(KC_LCTL);
-                unregister_code16(KC_RCTL);
-
-                for (unsigned int i = 0; i < 20; i++) {
-                    encoder_execute(KC_UP, KC_DOWN, clockwise);
-                }
-            } else if (is_any_ctrl) {
-                unregister_code16(KC_LCTL);
-                unregister_code16(KC_RCTL);
-
-                encoder_execute(KC_UP, KC_DOWN, clockwise);
-            } else {
-                encoder_execute(KC_WH_U, KC_WH_D, clockwise);
-            }
-
-            set_mods(initial_mod_state);
-        }
-
-        return false;
-    }
-
-    return true;
-}
-
-// end encoder
-
-// macros
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // bool pressed = record->event.pressed;
-
-    return true;
-}
-
-// end macros
-
-// void keyboard_post_init_user(void) { debug_enable = true; }
-
-uint8_t rgb_matrix_inactive_fn1[] = {
-    // OS MODE
-    LED_F1, LED_F2, LED_F3, LED_F4,
-    // Media keys
-    LED_F5, LED_F6, LED_F7, LED_F8,
-    // RGB CONTROL
-    LED_DEL, LED_HOME, LED_END, LED_INS,
-    // Mouse
-    LED_Q, LED_W, LED_E, LED_A, LED_S, LED_D,
-    // Calc
-    LED_PRT,
-    // Keypad
-    LED_Y, LED_U, LED_I, LED_O, LED_P, LED_H, LED_J, LED_K, LED_L, LED_SCLN, LED_QUOT, LED_N, LED_M, LED_COMM, LED_DOT, LED_SLSH
-
-};
-
-void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    if (!enable_side_rgb_matrix) {
-        rgb_matrix_disable_leds(rgb_matrix_side, sizeof(rgb_matrix_side));
-    }
-
-    if (get_autoshift_state()) {
-        rgb_matrix_set_color_led(LED_CAPS, triadic_counter_clockwise_rgb());
-    }
-
-    if (host_keyboard_led_state().caps_lock) {
-        rgb_matrix_set_color_led(LED_CAPS, triadic_clockwise_rgb());
-    }
-
-    if (IS_LAYER_ON(_FN1)) {
-        rgb_matrix_set_color_leds(rgb_matrix_inactive_fn1, sizeof(rgb_matrix_inactive_fn1), triadic_counter_clockwise_rgb());
-        rgb_matrix_set_color_led(LED_BSLS, complimentary_rgb());
-    }
-
-    if (enable_idicators || IS_LAYER_ON(_FN1)) {
-        if (os_mode == OS_MODE_WIN) {
-            rgb_matrix_set_color_led(LED_F2, triadic_clockwise_rgb());
-        } else if (os_mode == OS_MODE_MAC) {
-            rgb_matrix_set_color_led(LED_F3, triadic_clockwise_rgb());
-        }
-    }
-
-    if (os_mode == OS_MODE_DFT) {
-        rgb_matrix_set_color_led(LED_F1, triadic_clockwise_rgb());
-    }
-}
