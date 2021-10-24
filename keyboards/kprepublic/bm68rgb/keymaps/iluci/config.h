@@ -14,25 +14,18 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include QMK_KEYBOARD_H
-#include "util.h"
+#define DYNAMIC_KEYMAP_LAYER_COUNT 2
 
-td_state_t cur_dance(qk_tap_dance_state_t *state) {
-    if (state->count == 1) {
-        if (state->interrupted || !state->pressed)
-            return TD_SINGLE_TAP;
-        else
-            return TD_SINGLE_HOLD;
-    } else if (state->count == 2) {
-        if (state->pressed)
-            return TD_DOUBLE_HOLD;
-        else
-            return TD_DOUBLE_TAP;
-    } else if (state->count == 3) {
-        if (state->pressed)
-            return TD_TRIPLE_HOLD;
-        else
-            return TD_TRIPLE_TAP;
-    } else
-        return TD_UNKNOWN;
-}
+// #define TAPPING_TOGGLE 2
+
+#define MOUSEKEY_MAX_SPEED 9
+#define MOUSEKEY_TIME_TO_MAX 10
+
+#define AUTO_SHIFT_TIMEOUT 175
+#define AUTO_SHIFT_REPEAT
+
+#define RGB_DISABLE_WHEN_USB_SUSPENDED true
+#define RGB_MATRIX_STARTUP_MODE RGB_MATRIX_SOLID_COLOR
+
+#define USER_POWER_DOWN_DISABLE_RGB true
+#define USER_ENCODER_ENABLE false

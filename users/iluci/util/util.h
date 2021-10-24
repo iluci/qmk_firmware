@@ -32,7 +32,7 @@ bool is_any_shift(void);
 
 typedef enum { TD_UNKNOWN, TD_SINGLE_TAP, TD_SINGLE_HOLD, TD_DOUBLE_TAP, TD_DOUBLE_HOLD, TD_TRIPLE_TAP, TD_TRIPLE_HOLD } td_state_t;
 
-td_state_t cur_dance(qk_tap_dance_state_t* state);
+// td_state_t cur_dance(qk_tap_dance_state_t* state);
 
 RGB triadic_counter_clockwise_rgb(void);
 RGB triadic_clockwise_rgb(void);

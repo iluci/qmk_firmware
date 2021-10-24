@@ -14,22 +14,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
+#include QMK_KEYBOARD_H
 
-#define DYNAMIC_KEYMAP_LAYER_COUNT 2
+extern bool enable_side_rgb_matrix;
 
-#define TAPPING_TOGGLE 2
+void rgb_leds(void) {
 
-#define MOUSEKEY_MAX_SPEED 9
-#define MOUSEKEY_TIME_TO_MAX 10
-
-#define AUTO_SHIFT_TIMEOUT 175
-#define AUTO_SHIFT_REPEAT
-
-#define RGB_DISABLE_WHEN_USB_SUSPENDED true
-#define RGB_MATRIX_STARTUP_MODE RGB_MATRIX_SOLID_COLOR
-
-#define ENCODER_RESOLUTION 2
-
-#define USER_POWER_DOWN_DISABLE_RGB true
-#define USER_ENCODER_ENABLE true
+}

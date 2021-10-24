@@ -16,7 +16,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include QMK_KEYBOARD_H
 #include "core.h"
 
 enum custom_keycodes { KC_CUSTOM = NEW_SAFE_RANGE };

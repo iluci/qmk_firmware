@@ -145,6 +145,26 @@ void                  caps_finished(qk_tap_dance_state_t *state, void *user_data
 void                  caps_reset(qk_tap_dance_state_t *state, void *user_data);
 qk_tap_dance_action_t tap_dance_actions[] = {[TD_CAPS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, caps_finished, caps_reset)};
 
+td_state_t cur_dance(qk_tap_dance_state_t *state) {
+    if (state->count == 1) {
+        if (state->interrupted || !state->pressed)
+            return TD_SINGLE_TAP;
+        else
+            return TD_SINGLE_HOLD;
+    } else if (state->count == 2) {
+        if (state->pressed)
+            return TD_DOUBLE_HOLD;
+        else
+            return TD_DOUBLE_TAP;
+    } else if (state->count == 3) {
+        if (state->pressed)
+            return TD_TRIPLE_HOLD;
+        else
+            return TD_TRIPLE_TAP;
+    } else
+        return TD_UNKNOWN;
+}
+
 void caps_finished(qk_tap_dance_state_t *state, void *user_data) {
     switch (cur_dance(state)) {
         case TD_SINGLE_TAP:

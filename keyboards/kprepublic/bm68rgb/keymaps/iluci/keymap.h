@@ -16,23 +16,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include QMK_KEYBOARD_H
+#include "core.h"
 
-enum os_modes { WIN_MODE, MAC_MODE };
+enum custom_keycodes { KC_CUSTOM = NEW_SAFE_RANGE };
 
-// clang-format off
+enum layers { _BASE, _FN1 };
 
-enum custom_keycodes { 
-    FOO = SAFE_RANGE, 
-    RGB_TG, RGB_EF, RGB_CO, 
-    WIN, MAC, DEFAULT, 
-    PSGN
-};
-
-// clang-format on
-
-enum layers { _BASE, _DFT, _FN1 };
-
-typedef enum { TD_UNKNOWN, TD_SINGLE_TAP, TD_SINGLE_HOLD, TD_DOUBLE_TAP, TD_DOUBLE_HOLD, TD_TRIPLE_TAP, TD_TRIPLE_HOLD } td_state_t;
-
-enum td_codes { TD_CAPS, TD_TAB };
+enum td_codes { TD_CAPS };

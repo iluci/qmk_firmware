@@ -16,6 +16,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "util.h"
 
+#ifdef USER_ENCODER_ENABLE
+
 void encoder_execute(uint16_t counterClockwiseAction, uint16_t clockwiseAction, bool clockwise) {
     if (clockwise) {
         tap_code16(clockwiseAction);
@@ -23,3 +25,5 @@ void encoder_execute(uint16_t counterClockwiseAction, uint16_t clockwiseAction, 
         tap_code16(counterClockwiseAction);
     }
 }
+
+#endif
