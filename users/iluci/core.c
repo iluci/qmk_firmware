@@ -94,44 +94,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 // end macros
 
-// encoder
-
-bool encoder_update_user(uint8_t index, bool clockwise) {
-    // if (index == 0) {
-    //     if (IS_LAYER_ON(_FN1)) {
-    //         encoder_execute(KC_VOLU, KC_VOLD, clockwise);
-    //     } else {
-    //         uint8_t initial_mod_state = get_mods();
-
-    //         if (is_any_ctrl() && is_any_alt()) {
-    //             unregister_code16(KC_LALT);
-    //             unregister_code16(KC_RALT);
-    //             unregister_code16(KC_LCTL);
-    //             unregister_code16(KC_RCTL);
-
-    //             for (unsigned int i = 0; i < 20; i++) {
-    //                 encoder_execute(KC_UP, KC_DOWN, clockwise);
-    //             }
-    //         } else if (is_any_ctrl()) {
-    //             unregister_code16(KC_LCTL);
-    //             unregister_code16(KC_RCTL);
-
-    //             encoder_execute(KC_UP, KC_DOWN, clockwise);
-    //         } else {
-    //             encoder_execute(KC_WH_U, KC_WH_D, clockwise);
-    //         }
-
-    //         set_mods(initial_mod_state);
-    //     }
-
-    //     return false;
-    // }
-
-    return true;
-}
-
-// end encoder
-
 // rgb
 
 void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
@@ -139,7 +101,8 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 
     if (indicators.initialized) {
         if (!enable_side_rgb_matrix) {
-            rgb_matrix_disable_leds(indicators.RGB_MATRIX_SIDE, sizeof(indicators.RGB_MATRIX_SIDE));
+            //TODO: reenable
+            // rgb_matrix_disable_leds(indicators.RGB_MATRIX_SIDE, sizeof(indicators.RGB_MATRIX_SIDE));
         }
 
         if (IS_LAYER_ON(indicators.OS_IDICATOR_LAYER)) {

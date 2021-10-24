@@ -101,6 +101,44 @@ led_indicators_config_t led_indicators_config(void) {
 
 // void keyboard_post_init_user(void) { debug_enable = true; }
 
+// encoder
+
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    if (index == 0) {
+        if (IS_LAYER_ON(_FN1)) {
+            encoder_execute(KC_VOLU, KC_VOLD, clockwise);
+        } else {
+            uint8_t initial_mod_state = get_mods();
+
+            if (is_any_ctrl() && is_any_alt()) {
+                unregister_code16(KC_LALT);
+                unregister_code16(KC_RALT);
+                unregister_code16(KC_LCTL);
+                unregister_code16(KC_RCTL);
+
+                for (unsigned int i = 0; i < 20; i++) {
+                    encoder_execute(KC_UP, KC_DOWN, clockwise);
+                }
+            } else if (is_any_ctrl()) {
+                unregister_code16(KC_LCTL);
+                unregister_code16(KC_RCTL);
+
+                encoder_execute(KC_UP, KC_DOWN, clockwise);
+            } else {
+                encoder_execute(KC_WH_U, KC_WH_D, clockwise);
+            }
+
+            set_mods(initial_mod_state);
+        }
+
+        return false;
+    }
+
+    return true;
+}
+
+// end encoder
+
 // tap dance
 
 void                  caps_finished(qk_tap_dance_state_t *state, void *user_data);

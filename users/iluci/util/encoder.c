@@ -14,6 +14,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "util.h"
+
 void encoder_execute(uint16_t counterClockwiseAction, uint16_t clockwiseAction, bool clockwise) {
     if (clockwise) {
         tap_code16(clockwiseAction);
