@@ -20,6 +20,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 enum custom_keycodes { KC_CUSTOM = NEW_SAFE_RANGE };
 
-enum layers { _BASE, _FN1 };
-
-enum td_codes { TD_CAPS };
+enum layers { _BASE, _FN1, _UTIL };

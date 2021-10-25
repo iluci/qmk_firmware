@@ -32,7 +32,8 @@
         "xhash": "c",
         "xiosbase": "c",
         "xtree": "c",
-        "xutility": "c"
+        "xutility": "c",
+        "any": "c"
     },
     "[markdown]": {
         "editor.trimAutoWhitespace": false,

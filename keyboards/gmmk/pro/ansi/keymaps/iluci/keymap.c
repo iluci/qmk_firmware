@@ -1,5 +1,4 @@
-/* Copyright 2021 Glorious, LLC <salman@pcgamingrace.com>
-   Copyright 2021 iluci
+/* Copyright 2021 iluci
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

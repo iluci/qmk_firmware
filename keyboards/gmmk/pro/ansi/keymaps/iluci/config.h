@@ -16,6 +16,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#define NO_ACTION_ONESHOT
+#define NO_ACTION_MACRO
+#define NO_ACTION_FUNCTION
+
 #define DYNAMIC_KEYMAP_LAYER_COUNT 2
 
 #define TAPPING_TOGGLE 2
@@ -31,5 +35,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define ENCODER_RESOLUTION 2
 
-#define USER_POWER_DOWN_DISABLE_RGB true
-#define USER_ENCODER_ENABLE true
+#define POWER_DOWN_DISABLE_RGB

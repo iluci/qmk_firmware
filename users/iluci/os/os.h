@@ -75,6 +75,7 @@ enum os_actions {
 };
 
 void set_one_shot_df_os_mode(void);
+void unset_one_shot_df_os_mode(void);
 
 bool os_macros(uint16_t keycode, bool pressed);
 

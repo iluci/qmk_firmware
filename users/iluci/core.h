@@ -18,21 +18,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include QMK_KEYBOARD_H
 
-typedef struct led_indicators_config_t {
-    bool initialized;
+#define MODS_SHIFT (get_mods() & MOD_MASK_SHIFT)
+#define MODS_CTRL (get_mods() & MOD_MASK_CTRL)
+#define MODS_ALT (get_mods() & MOD_MASK_ALT)
+#define MODS_GUI (get_mods() & MOD_MASK_GUI)
 
-    uint8_t RGB_MATRIX_SIDE[50];
-    uint8_t RGB_MATRIX_INCATIVE_FN1[50];
-    uint8_t RESET;
-    uint8_t CAPS_LOCK;
-    uint8_t OS_IDICATOR_LAYER;
-    uint8_t OS_MODE_DFT;
-    uint8_t OS_MODE_WIN;
-    uint8_t OS_MODE_MAC;
+#define RGB_TCC hsv_to_rgb((HSV){rgb_matrix_config.hsv.h - 85, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v})
+#define RGB_TC hsv_to_rgb((HSV){rgb_matrix_config.hsv.h + 85, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v})
+#define RGB_C hsv_to_rgb((HSV){rgb_matrix_config.hsv.h + 128, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v})
 
-} led_indicators_config_t;
+typedef enum {
+    TD_UNKNOWN,
+    TD_SINGLE_TAP,
+    TD_SINGLE_HOLD,
+    TD_DOUBLE_TAP,
+    TD_DOUBLE_HOLD,
+    TD_TRIPLE_TAP,
+    TD_TRIPLE_HOLD,
+} td_state_t;
+
+enum td_codes { TD_CAPS };
 
 // clang-format off
+
+typedef enum { 
+    LED_TRANS,
+    LED_SIDE,
+    LED_CAPS,
+    LED_TC, LED_TCC, LED_COM,
+    LED_DFT, LED_WIN, LED_MAC,
+} led_map_t;
 
 enum user_custom_keycodes { 
     KC_USER_CUSTOM = SAFE_RANGE, 

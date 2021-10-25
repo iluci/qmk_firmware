@@ -14,9 +14,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define DYNAMIC_KEYMAP_LAYER_COUNT 2
+#pragma once
 
-// #define TAPPING_TOGGLE 2
+#define NO_ACTION_ONESHOT
+#define NO_ACTION_MACRO
+#define NO_ACTION_FUNCTION
+
+#define DYNAMIC_KEYMAP_LAYER_COUNT 3
+
+#define TAPPING_TOGGLE 2
 
 #define MOUSEKEY_MAX_SPEED 9
 #define MOUSEKEY_TIME_TO_MAX 10
@@ -27,5 +33,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGB_DISABLE_WHEN_USB_SUSPENDED true
 #define RGB_MATRIX_STARTUP_MODE RGB_MATRIX_SOLID_COLOR
 
-#define USER_POWER_DOWN_DISABLE_RGB true
-#define USER_ENCODER_ENABLE false
+#define POWER_DOWN_DISABLE_RGB
