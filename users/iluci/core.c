@@ -18,10 +18,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "core.h"
 #include "os/os.h"
 
-extern uint8_t         os_mode;
 extern const led_map_t led_map[][DRIVER_LED_TOTAL];
+extern uint8_t         os_mode;
+extern bool            is_one_shot_df_os_mode;
 
 bool enable_side_rgb_matrix = false;
+bool enable_idicators       = false;
 
 __attribute__((weak)) bool process_record_user_keymap(uint16_t keycode, keyrecord_t *record) { return true; }
 __attribute__((weak)) void rgb_matrix_indicators_keymap(uint8_t led_min, uint8_t led_max) {}
@@ -36,7 +38,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case RGB_TG:
             if (pressed) {
                 if (MODS_CTRL) {
-                    enable_side_rgb_matrix = !enable_side_rgb_matrix;
+                    if (MODS_SHIFT) {
+                        enable_side_rgb_matrix = !enable_side_rgb_matrix;
+                    } else {
+                        enable_idicators = !enable_idicators;
+                    }
                 } else {
                     rgb_matrix_toggle();
                 }
@@ -202,6 +208,24 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             }
             case LED_COM: {
                 rgb_matrix_set_color_led(i, RGB_C);
+                break;
+            }
+            case LED_B_DFT: {
+                if ((enable_idicators && os_mode == OS_MODE_DFT) || is_one_shot_df_os_mode) {
+                    rgb_matrix_set_color_led(i, RGB_TC);
+                }
+                break;
+            }
+            case LED_B_WIN: {
+                if (enable_idicators && os_mode == OS_MODE_WIN) {
+                    rgb_matrix_set_color_led(i, RGB_TC);
+                }
+                break;
+            }
+            case LED_B_MAC: {
+                if (enable_idicators && os_mode == OS_MODE_MAC) {
+                    rgb_matrix_set_color_led(i, RGB_TC);
+                }
                 break;
             }
             case LED_DFT: {

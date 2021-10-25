@@ -46,6 +46,7 @@ typedef enum {
     LED_SIDE,
     LED_CAPS,
     LED_TC, LED_TCC, LED_COM,
+    LED_B_DFT, LED_B_WIN, LED_B_MAC,
     LED_DFT, LED_WIN, LED_MAC,
 } led_map_t;
 
