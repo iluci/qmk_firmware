@@ -37,7 +37,7 @@ typedef enum {
     TD_TRIPLE_HOLD,
 } td_state_t;
 
-enum td_codes { TD_CAPS };
+enum td_codes { TDC };
 
 // clang-format off
 

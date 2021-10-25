@@ -98,7 +98,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void                  caps_finished(qk_tap_dance_state_t *state, void *user_data);
 void                  caps_reset(qk_tap_dance_state_t *state, void *user_data);
-qk_tap_dance_action_t tap_dance_actions[] = {[TD_CAPS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, caps_finished, caps_reset)};
+qk_tap_dance_action_t tap_dance_actions[] = {[TDC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, caps_finished, caps_reset)};
 
 td_state_t cur_dance(qk_tap_dance_state_t *state) {
     if (state->count == 1) {

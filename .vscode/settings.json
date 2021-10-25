@@ -33,7 +33,8 @@
         "xiosbase": "c",
         "xtree": "c",
         "xutility": "c",
-        "any": "c"
+        "any": "c",
+        "random": "c"
     },
     "[markdown]": {
         "editor.trimAutoWhitespace": false,
