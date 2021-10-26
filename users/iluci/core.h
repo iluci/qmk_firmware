@@ -50,7 +50,7 @@ typedef enum {
     LED_DFT, LED_WIN, LED_MAC,
 } led_map_t;
 
-enum user_custom_keycodes { 
+enum { 
     KC_USER_CUSTOM = SAFE_RANGE, 
     RGB_TG, RGB_EF, RGB_CO, 
     OS_DEFT, OS_WIN, OS_MAC, PSGN,

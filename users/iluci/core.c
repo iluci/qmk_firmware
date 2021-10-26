@@ -129,9 +129,6 @@ void caps_finished(qk_tap_dance_state_t *state, void *user_data) {
         case TD_DOUBLE_TAP:
             set_one_shot_df_os_mode();
             break;
-            // case TD_TRIPLE_TAP:
-            // autoshift_toggle();
-            break;
         default:
             break;
     }
@@ -142,8 +139,6 @@ void caps_reset(qk_tap_dance_state_t *state, void *user_data) {
         case TD_SINGLE_TAP:
         case TD_SINGLE_HOLD:
             unregister_code16(KC_CAPS);
-            break;
-        case TD_DOUBLE_TAP:
             break;
         default:
             break;
@@ -156,12 +151,61 @@ void caps_reset(qk_tap_dance_state_t *state, void *user_data) {
 
 #ifdef ENCODER_ENABLE
 
+__attribute__((weak)) bool is_fn_layer(void) { return false; }
+
 void encoder_execute(uint16_t counterClockwiseAction, uint16_t clockwiseAction, bool clockwise) {
     if (clockwise) {
         tap_code16(clockwiseAction);
     } else {
         tap_code16(counterClockwiseAction);
     }
+}
+
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    //TODO: alt tab?
+    //TODO: rgb?
+    if (index == 0) {
+        if (is_fn_layer()) {
+            encoder_execute(KC_VOLU, KC_VOLD, clockwise);
+        } else {
+            uint8_t initial_mod_state = get_mods();
+
+            if (MODS_CTRL) {
+                unsigned int times = 1;
+
+                unregister_code16(KC_LCTL);
+                unregister_code16(KC_RCTL);
+
+                if (MODS_ALT) {
+                    unregister_code16(KC_LALT);
+                    unregister_code16(KC_RALT);
+                    times = 20;
+                }
+
+                for (unsigned int i = 0; i < times; i++) {
+                    encoder_execute(KC_UP, KC_DOWN, clockwise);
+                }
+            } else {
+                unsigned int times = 1;
+
+                if (MODS_ALT) {
+                    unregister_code16(KC_LALT);
+                    unregister_code16(KC_RALT);
+                    times = 5;
+                }
+
+                for (unsigned int i = 0; i < times; i++) {
+                    encoder_execute(KC_WH_U, KC_WH_D, clockwise);
+                }
+            }
+
+            set_mods(initial_mod_state);
+        }
+
+        return false;
+    }
+
+    return true;
 }
 
 #endif
@@ -192,9 +236,6 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
                 if (host_keyboard_led_state().caps_lock) {
                     rgb_matrix_set_color_led(i, RGB_TC);
                 }
-                // else if (get_autoshift_state()) {
-                //     rgb_matrix_set_color_led(i, RGB_TCC);
-                // }
                 break;
             }
             case LED_TC: {
