@@ -144,7 +144,6 @@ void caps_reset(qk_tap_dance_state_t *state, void *user_data) {
             unregister_code16(KC_CAPS);
             break;
         case TD_DOUBLE_TAP:
-            unset_one_shot_df_os_mode();
             break;
         default:
             break;

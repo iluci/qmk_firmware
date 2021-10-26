@@ -23,9 +23,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MODS_ALT (get_mods() & MOD_MASK_ALT)
 #define MODS_GUI (get_mods() & MOD_MASK_GUI)
 
-#define RGB_TCC hsv_to_rgb((HSV){rgb_matrix_config.hsv.h - 85, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v})
-#define RGB_TC hsv_to_rgb((HSV){rgb_matrix_config.hsv.h + 85, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v})
-#define RGB_C hsv_to_rgb((HSV){rgb_matrix_config.hsv.h + 128, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v})
+#define RGB_TCC hsv_to_rgb((HSV){rgb_matrix_config.hsv.h - 85, 255, rgb_matrix_config.hsv.v})
+#define RGB_TC hsv_to_rgb((HSV){rgb_matrix_config.hsv.h + 85, 255, rgb_matrix_config.hsv.v})
+#define RGB_C hsv_to_rgb((HSV){rgb_matrix_config.hsv.h + 128, 255, rgb_matrix_config.hsv.v})
 
 typedef enum {
     TD_UNKNOWN,
