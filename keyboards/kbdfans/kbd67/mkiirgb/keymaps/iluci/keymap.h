@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 enum custom_keycodes { KC_CUSTOM = NEW_SAFE_RANGE };
 
-enum layers { _BASE, _FN1, _UTIL };
+enum layers { _BASE, _FN, _UTIL, _NUM, _RGB };
 
 // clang-format off
 //  01, ~      02, 1      03, 2      04, 3      05, 4      06, 5      07, 6      08, 7      09, 8      10, 9      11, 0      12, -_     13, (=+)   14, BackSpc           15, Del

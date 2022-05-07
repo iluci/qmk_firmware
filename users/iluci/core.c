@@ -34,51 +34,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     bool pressed = record->event.pressed;
 
     switch (keycode) {
-        case RGB_TG:
+        case RGB_TGI:
             if (pressed) {
-                if (MODS_ALT) {
-                    if (MODS_SHIFT) {
-                        enable_side_rgb_matrix = !enable_side_rgb_matrix;
-                    } else {
-                        enable_idicators = !enable_idicators;
-                    }
-                } else {
-                    rgb_matrix_toggle();
-                }
+                enable_idicators = !enable_idicators;
             }
             return false;
-        case RGB_EF:
+        case RGB_TGS:
             if (pressed) {
-                if (MODS_ALT) {
-                    if (MODS_SHIFT) {
-                        rgb_matrix_decrease_speed();
-                    } else {
-                        rgb_matrix_increase_speed();
-                    }
-                } else {
-                    if (MODS_SHIFT) {
-                        rgb_matrix_step_reverse();
-                    } else {
-                        rgb_matrix_step();
-                    }
-                }
+                enable_side_rgb_matrix = !enable_side_rgb_matrix;
             }
             return false;
-        case RGB_CO:
+        case RGB_SI:
             if (pressed) {
-                if (MODS_ALT) {
-                    if (MODS_SHIFT) {
-                        rgb_matrix_decrease_sat();
-                    } else {
-                        rgb_matrix_increase_sat();
-                    }
-                } else {
-                    if (MODS_SHIFT) {
-                        rgb_matrix_decrease_hue();
-                    } else {
-                        rgb_matrix_increase_hue();
-                    }
-                }
+                rgb_matrix_increase_speed();
+            }
+            return false;
+        case RGB_SD:
+            if (pressed) {
+                rgb_matrix_decrease_speed();
             }
             return false;
     }
@@ -94,6 +67,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // end macros
 
 // tap dance
+#ifdef TAP_DANCE_ENABLE
 
 void                  caps_finished(qk_tap_dance_state_t *state, void *user_data);
 void                  caps_reset(qk_tap_dance_state_t *state, void *user_data);
@@ -143,6 +117,8 @@ void caps_reset(qk_tap_dance_state_t *state, void *user_data) {
             break;
     }
 }
+
+#endif
 
 // end tap dance
 

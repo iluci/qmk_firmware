@@ -41,7 +41,7 @@ enum td_codes { TDC };
 
 // clang-format off
 
-typedef enum { 
+typedef enum {
     LED_TRANS,
     LED_SIDE,
     LED_CAPS,
@@ -50,11 +50,11 @@ typedef enum {
     LED_DFT, LED_WIN, LED_MAC,
 } led_map_t;
 
-enum { 
-    KC_USER_CUSTOM = SAFE_RANGE, 
-    RGB_TG, RGB_EF, RGB_CO, 
+enum {
+    KC_USER_CUSTOM = SAFE_RANGE,
+    RGB_TGI, RGB_TGS, RGB_SI, RGB_SD,
     OS_DEFT, OS_WIN, OS_MAC, PSGN,
-    NEW_SAFE_RANGE 
+    NEW_SAFE_RANGE
 };
 
 // clang-format on
