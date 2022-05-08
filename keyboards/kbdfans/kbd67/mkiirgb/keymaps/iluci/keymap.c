@@ -99,7 +99,7 @@ const led_map_t PROGMEM led_map[][DRIVER_LED_TOTAL] = {
     ),
     [_UTIL] = LED_MAP_LAYOUT(
         LED_COM,   _______,  _______, _______, _______,  _______,  _______, _______, _______,  _______, _______,   _______,   _______,  _______,               LED_COM,
-        _______,   LED_TCC,  LED_COM, LED_TCC, LED_TCC,  _______,  _______, _______, _______,  _______, _______,   _______,   _______,  LED_COM,               LED_COM,
+        _______,   LED_TCC,  LED_COM, LED_TCC, LED_TCC,  _______,  _______, _______, _______,  _______, LED_TCC,   _______,   _______,  LED_COM,               LED_COM,
         _______,   LED_COM,  LED_COM, LED_COM, LED_TCC,  _______,  _______, _______, _______,  _______, _______,   _______,             _______,               _______,
         _______,   _______,  _______, LED_TCC, _______,  _______,  _______, LED_COM, LED_TCC,  LED_TCC, _______,   _______,                         _______,   _______,
         _______,   _______,  _______,                              _______,                                        _______,   _______,  _______,    _______,   _______
@@ -124,6 +124,3 @@ const led_map_t PROGMEM led_map[][DRIVER_LED_TOTAL] = {
 #define _______ KC_TRNS
 
 // clang-format on
-
-
-os_mode = OS_MODE_DFT
