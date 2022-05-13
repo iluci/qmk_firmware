@@ -70,7 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXXXXXX,   XXXXXXX,  XXXXXXX,                              XXXXXXX,                                        _______,   XXXXXXX,   XXXXXXX,   XXXXXXX,   XXXXXXX
     ),
     [_RGB] = LAYOUT_65_ansi_blocker(
-        TG(_RGB),  RGB_M_P,  RGB_M_B, RGB_M_R, RGB_M_SW, RGB_M_SN, RGB_M_K, RGB_M_X, RGB_M_G,  RGB_M_T, RGB_M_TW,  RGB_SD,    RGB_SI,    XXXXXXX,              RGB_TOG,
+        TG(_RGB),  RGB_M_P,  RGB_M_B, RGB_M_R, RGB_M_SW, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,   RGB_SD,    RGB_SI,    XXXXXXX,              RGB_TOG,
         XXXXXXX,   XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,   XXXXXXX,   XXXXXXX,   XXXXXXX,              RGB_TGI,
         XXXXXXX,   XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,   XXXXXXX,              XXXXXXX,              RGB_TGS,
         XXXXXXX,   XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, RGB_RMOD, RGB_MOD, XXXXXXX,   XXXXXXX,                         RGB_VAI,   XXXXXXX,
@@ -112,7 +112,7 @@ const led_map_t PROGMEM led_map[][DRIVER_LED_TOTAL] = {
         _______,   _______,  _______,                              _______,                                        _______,   _______,  _______,    _______,   _______
     ),
     [_RGB] = LED_MAP_LAYOUT(
-        LED_COM,   LED_TCC,  LED_TCC, LED_TCC, LED_TCC,  LED_TCC,  LED_TCC, LED_TCC, LED_TCC,  LED_TCC, LED_TCC,   LED_TCC,   LED_TCC,  _______,               LED_TCC,
+        LED_COM,   LED_TCC,  LED_TCC, LED_TCC, LED_TCC,  _______,  _______, _______, _______,  _______, _______,   _______,   _______,  _______,               LED_TCC,
         _______,   _______,  _______, _______, _______,  _______,  _______, _______, _______,  _______, _______,   _______,   _______,  _______,               LED_TCC,
         _______,   _______,  _______, _______, _______,  _______,  _______, _______, _______,  _______, _______,   _______,             _______,               LED_TCC,
         _______,   _______,  _______, _______, _______,  _______,  _______, _______, _______,  _______, _______,   _______,                         LED_TCC,   _______,
