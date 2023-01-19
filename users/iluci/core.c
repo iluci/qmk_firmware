@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "core.h"
 #include "os/os.h"
 
-extern const led_map_t led_map[][DRIVER_LED_TOTAL];
+// extern const led_map_t led_map[][DRIVER_LED_TOTAL];
 extern uint8_t         os_mode;
 extern bool            is_one_shot_df_os_mode;
 
@@ -44,6 +44,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 enable_side_rgb_matrix = !enable_side_rgb_matrix;
             }
             return false;
+        #ifdef RGB_MATRIX_ENABLE
         case RGB_SI:
             if (pressed) {
                 rgb_matrix_increase_speed();
@@ -54,6 +55,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 rgb_matrix_decrease_speed();
             }
             return false;
+        #endif
     }
 
     handled = os_macros(keycode, pressed);
@@ -122,73 +124,8 @@ void caps_reset(qk_tap_dance_state_t *state, void *user_data) {
 
 // end tap dance
 
-// encoder
-
-#ifdef ENCODER_ENABLE
-
-__attribute__((weak)) bool is_fn_layer(void) { return false; }
-
-void encoder_execute(uint16_t counterClockwiseAction, uint16_t clockwiseAction, bool clockwise) {
-    if (clockwise) {
-        tap_code16(clockwiseAction);
-    } else {
-        tap_code16(counterClockwiseAction);
-    }
-}
-
-bool encoder_update_user(uint8_t index, bool clockwise) {
-    //TODO: alt tab?
-    //TODO: rgb?
-    if (index == 0) {
-        if (is_fn_layer()) {
-            encoder_execute(KC_VOLU, KC_VOLD, clockwise);
-        } else {
-            uint8_t initial_mod_state = get_mods();
-
-            if (MODS_CTRL) {
-                unsigned int times = 1;
-
-                unregister_code16(KC_LCTL);
-                unregister_code16(KC_RCTL);
-
-                if (MODS_ALT) {
-                    unregister_code16(KC_LALT);
-                    unregister_code16(KC_RALT);
-                    times = 20;
-                }
-
-                for (unsigned int i = 0; i < times; i++) {
-                    encoder_execute(KC_UP, KC_DOWN, clockwise);
-                }
-            } else {
-                unsigned int times = 1;
-
-                if (MODS_ALT) {
-                    unregister_code16(KC_LALT);
-                    unregister_code16(KC_RALT);
-                    times = 5;
-                }
-
-                for (unsigned int i = 0; i < times; i++) {
-                    encoder_execute(KC_WH_U, KC_WH_D, clockwise);
-                }
-            }
-
-            set_mods(initial_mod_state);
-        }
-
-        return false;
-    }
-
-    return true;
-}
-
-#endif
-
-// end encoder
-
 // rgb
-
+#ifdef RGB_MATRIX_ENABLE
 void rgb_matrix_set_color_led(uint8_t led, RGB color) { rgb_matrix_set_color(led, color.r, color.g, color.b); };
 
 void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
@@ -272,6 +209,7 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 
     rgb_matrix_indicators_keymap(led_min, led_max);
 }
+#endif
 
 #ifdef POWER_DOWN_DISABLE_RGB
 void suspend_power_down_user() { rgb_matrix_set_suspend_state(true); }
