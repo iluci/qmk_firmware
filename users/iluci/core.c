@@ -17,14 +17,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "core.h"
 #include "os/os.h"
 
-// extern const led_map_t led_map[][DRIVER_LED_TOTAL];
 extern uint8_t         os_mode;
 extern bool            is_one_shot_df_os_mode;
 
 bool enable_side_rgb_matrix = false;
 bool enable_idicators       = false;
 
-__attribute__((weak)) bool process_record_user_keymap(uint16_t keycode, keyrecord_t *record) { return true; }
+__attribute__((weak)) bool process_record_user_keymap(uint16_t keycode, keyrecord_t *record) {
+    return true;
+}
 __attribute__((weak)) void rgb_matrix_indicators_keymap(uint8_t led_min, uint8_t led_max) {}
 
 // macros
@@ -44,7 +45,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 enable_side_rgb_matrix = !enable_side_rgb_matrix;
             }
             return false;
-        #ifdef RGB_MATRIX_ENABLE
+#ifdef RGB_MATRIX_ENABLE
         case RGB_SI:
             if (pressed) {
                 rgb_matrix_increase_speed();
@@ -55,7 +56,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 rgb_matrix_decrease_speed();
             }
             return false;
-        #endif
+#endif
     }
 
     handled = os_macros(keycode, pressed);
@@ -126,12 +127,16 @@ void caps_reset(qk_tap_dance_state_t *state, void *user_data) {
 
 // rgb
 #ifdef RGB_MATRIX_ENABLE
-void rgb_matrix_set_color_led(uint8_t led, RGB color) { rgb_matrix_set_color(led, color.r, color.g, color.b); };
+extern const led_map_t led_map[][RGBLED_NUM];
 
-void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+void rgb_matrix_set_color_led(uint8_t led, RGB color) {
+    rgb_matrix_set_color(led, color.r, color.g, color.b);
+};
+
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     int layer = get_highest_layer(layer_state);
 
-    for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+    for (int i = 0; i < RGBLED_NUM; i++) {
         led_map_t led = pgm_read_byte(&led_map[layer][i]);
 
         switch (led) {
@@ -208,13 +213,19 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     }
 
     rgb_matrix_indicators_keymap(led_min, led_max);
+
+    return false;
 }
 #endif
 
 #ifdef POWER_DOWN_DISABLE_RGB
-void suspend_power_down_user() { rgb_matrix_set_suspend_state(true); }
+void suspend_power_down_user() {
+    rgb_matrix_set_suspend_state(true);
+}
 
-void suspend_wakeup_init_user() { rgb_matrix_set_suspend_state(false); }
+void suspend_wakeup_init_user() {
+    rgb_matrix_set_suspend_state(false);
+}
 #endif
 
 // end rgb

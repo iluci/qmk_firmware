@@ -22,6 +22,8 @@ enum custom_keycodes { KC_CUSTOM = NEW_SAFE_RANGE };
 
 enum layers { _BASE, _FN, _UTIL, _NUM, _RGB };
 
+#define RGBLED_NUM 67
+
 // clang-format off
 //  01, ~      02, 1      03, 2      04, 3      05, 4      06, 5      07, 6      08, 7      09, 8      10, 9      11, 0      12, -_     13, (=+)   14, BackSpc           15, Del
 //  16, Tab    17, Q      18, W      19. E      20, R      21, T      22, Y      23, U      24, I      25, O      26, P      27, [{     28, ]}     29, \|                30, Home
