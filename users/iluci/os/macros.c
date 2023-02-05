@@ -48,7 +48,7 @@ bool os_macros(uint16_t keycode, bool pressed) {
             pressed && (os_mode = OS_MODE_MAC);
             return true;
             break;
-        case OS_TMP_DEFT:
+        case OS_TMP_DEF:
             if(pressed) {
                 set_one_shot_df_os_mode();
             }

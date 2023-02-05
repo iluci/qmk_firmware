@@ -34,13 +34,13 @@ for more options.
 #    define RGB_MATRIX_SPLIT \
         { 36, 36 }
 #    define SPLIT_TRANSPORT_MIRROR
-#define RGB_MATRIX_STARTUP_MODE RGB_MATRIX_SOLID_COLOR
-#define RGB_DISABLE_WHEN_USB_SUSPENDED true
+#    define RGB_MATRIX_STARTUP_MODE RGB_MATRIX_SOLID_COLOR
+#    define RGB_DISABLE_WHEN_USB_SUSPENDED true
 #endif
 
 #ifdef RGBLIGHT_ENABLE
 #    define RGBLIGHT_SPLIT
-#    define RGBLED_NUM 70
+#    define RGBLED_NUM 72
 #    define RGB_SPLIT \
         { 36, 36 }
 #    define RGBLIGHT_LIMIT_VAL 120
@@ -56,12 +56,8 @@ for more options.
 // #    define RGBLIGHT_EFFECT_ALTERNATING
 #endif
 
-// #define TAPPING_FORCE_HOLD
-// #ifdef TAPPING_TERM
-//     #undef TAPPING_TERM
-//     #define TAPPING_TERM 200
-// #endif
-// #define ENCODER_DIRECTION_FLIP
+#define SPLIT_LAYER_STATE_ENABLE
+#define SPLIT_LED_STATE_ENABLE
 
 // #define MOUSE_EXTENDED_REPORT
 // // #define POINTING_DEVICE_MOTION_PIN_ACTIVE_LOW

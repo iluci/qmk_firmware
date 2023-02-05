@@ -26,6 +26,8 @@ bool handle_win_action(uint8_t os_action, bool pressed) {
 
         case OS_REDO:
             return execute_moded_keycode(KC_Y, MOD_BIT(KC_LCTL), pressed);
+        case OS_UNDO:
+            return execute_moded_keycode(KC_Z, MOD_BIT(KC_LCTL), pressed);
 
         case BROW_REFRESH_CACHE:
             return execute_moded_keycode(KC_F5, MOD_BIT(KC_LCTL), pressed);

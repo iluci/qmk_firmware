@@ -53,7 +53,7 @@ typedef enum {
 enum {
     KC_USER_CUSTOM = SAFE_RANGE,
     RGB_TGI, RGB_TGS, RGB_SI, RGB_SD,
-    OS_DEF, OS_WIN, OS_MAC, OS_TMP_DEFT,
+    OS_DEF, OS_WIN, OS_MAC, OS_TMP_DEF,
     PSGN,
     NEW_SAFE_RANGE
 };
