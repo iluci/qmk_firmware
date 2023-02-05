@@ -17,7 +17,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "core.h"
 
-enum layers { _BASE, _LOWER, _RAISE, _UTIL };
+enum layers { _QWRTY, _CLMK, _LOWER, _RAISE, _ADJST, _NUM };
+
+enum custom_keycodes { KC_QWRTY = NEW_SAFE_RANGE, KC_CLMK, KC_LOWER, KC_RAISE, KC_ADJST };
 
 // clang-format off
 

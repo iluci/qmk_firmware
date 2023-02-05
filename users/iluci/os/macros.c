@@ -36,7 +36,7 @@ void unset_one_shot_df_os_mode(void) {
 
 bool os_macros(uint16_t keycode, bool pressed) {
     switch (keycode) {
-        case OS_DEFT:
+        case OS_DEF:
             pressed && (os_mode = OS_MODE_DFT);
             return true;
             break;

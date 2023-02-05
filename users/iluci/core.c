@@ -218,14 +218,4 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 }
 #endif
 
-#ifdef POWER_DOWN_DISABLE_RGB
-void suspend_power_down_user() {
-    rgb_matrix_set_suspend_state(true);
-}
-
-void suspend_wakeup_init_user() {
-    rgb_matrix_set_suspend_state(false);
-}
-#endif
-
 // end rgb
